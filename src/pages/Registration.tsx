@@ -3,7 +3,7 @@ import Input from "../components/Input";
 import {Formik} from "formik";
 import * as yup from "yup";
 import {Link, Navigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {useLocation} from "react-router";
 import {actionRegister} from "../redux/reducers/authReducer";
 interface FormikType {
@@ -15,16 +15,18 @@ interface FormikType {
 
 const Registration:FC = () => {
     const dispatch = useDispatch<any>();
+
     const valSchema = yup.object().shape({
         login: yup.string().typeError('This field only accepts text').required('This field is required').min(3,'The field must be at least 3 characters long'),
         email: yup.string().email('Wrong email').required('This field is required').min(3,'The field must be at least 3 characters long'),
         password: yup.string().typeError('This field only accepts text').required('This field is required').min(6,'The field must be at least 6 characters long'),
         passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match'),
     });
+
     const FormSubmit = (values:FormikType) =>{
         dispatch(actionRegister(values.login,values.email,values.password))
     };
-  //  const auth = useSelector<any,any>(state => state.authReducer.auth);
+
     let location = useLocation();
     if (localStorage.getItem('token')) return <Navigate to="/" state={{ from: location }}/>;
     return (

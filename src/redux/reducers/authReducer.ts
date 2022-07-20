@@ -5,6 +5,23 @@ import {createSound} from "../../untill/scripts";
 import {actionUpdateDialog} from "./dialogsReducer";
 import {actionAddMessage} from "./messageReducer";
 
+export interface authReducerType{
+    auth: boolean;
+    id: number;
+    email: string;
+    name: string;
+    status: string;
+    city: string;
+    lang: string;
+    avatar: string;
+    mood: number;
+    moodAvatar: string;
+    groupList: string;
+    isLocked:boolean;
+    loadingAuth: boolean;
+    websocket: any
+}
+
 let initialState = {
     auth: false,
     id: 0,
@@ -21,6 +38,7 @@ let initialState = {
     loadingAuth: false,
     websocket: null
 };
+
 type defaultStateType = typeof initialState
 export const GET_AUTH = "GET_AUTH";
 export const SET_AUTH = "SET_AUTH";
@@ -38,11 +56,20 @@ const authReducer = (state = initialState, action: any) => {
                 ...action.payload
             };
         case 'SET_AUTH':
-            return {...state, auth: true};
+            return {
+                ...state,
+                auth: true
+            };
         case 'SET_LOADING_AUTH':
-            return {...state, loadingAuth: action.payload.loadingAuth};
+            return {
+                ...state,
+                loadingAuth: action.payload.loadingAuth
+            };
         case 'SET_WEBSOCKET':
-            return {...state, websocket: action.payload};
+            return {
+                ...state,
+                websocket: action.payload
+            };
         default:
             return state;
     }
@@ -53,12 +80,10 @@ const actions = {
     setAuth: (payload:any):any => ({type: SET_AUTH, payload}),
     setLoading: (payload:any):any => ({type: SET_LOADING_AUTH, payload}),
     setWebsocket: (payload:any):any => ({type: SET_WEBSOCKET, payload}),
-
 };
 export const createWebsocket = ():ThunkType => async (dispatch,getState)=>{
     try {
-
-        let socket = new WebSocket('wss://websocket.river-fuler.space');///new WebsocketClass('wss://websocket.river-fuler.space');
+        let socket = new WebSocket('wss://websocket.river-fuler.space');
         socket.onopen = ()=>{
             console.log('Socket open');
             socket.send(JSON.stringify({

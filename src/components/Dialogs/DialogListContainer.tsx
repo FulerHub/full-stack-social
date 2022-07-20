@@ -2,11 +2,14 @@ import React from 'react';
 import {connect} from "react-redux";
 import DialogList from "./DialogList";
 import {actionGetDialogs} from "../../redux/reducers/dialogsReducer";
+import {RootStateType} from "../../redux/store";
+import {selectDialogsLoading, selectGetDialogs} from "../../selectors/selectors";
 
-const mapStateToProps = (state:any) => ({
-    dialogs: state.dialogsReducer.dialogs,
-    loading: state.dialogsReducer.isLoading
+const mapStateToProps = (state:RootStateType) => ({
+    dialogs: selectGetDialogs(state),
+    loading: selectDialogsLoading(state)
 });
+
 
 const mapDispatchToProps = (dispatch:any) =>({
     getDialogs(){

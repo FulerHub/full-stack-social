@@ -6,15 +6,16 @@ import Preloader from "../components/Preloader";
 
 import "@fancyapps/ui/dist/fancybox.css";
 import NoResult from "../components/NoResult";
+import {selectGroupList, selectTelegramReducer} from "../selectors/selectors";
 
 const News:FC = ({}) => {
     const dispatch = useDispatch<any>();
-    const groupList = useSelector<any,any>(state => state.authReducer.groupList);
+    const groupList = useSelector(selectGroupList);
     useEffect(()=>{
         dispatch(actionGetTelegram(groupList))
     },[]);
-    const {posts,isLoading} = useSelector<any,any>(state => state.telegramReducer);
 
+    const {posts,isLoading} = useSelector(selectTelegramReducer);
     if(isLoading) return <div className="telegramNews content"><Preloader/></div>;
     return (
         <div className="telegramNews content">

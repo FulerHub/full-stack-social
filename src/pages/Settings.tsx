@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {actionUpdateSetting, actionUploadAvatar} from "../redux/reducers/authReducer";
 import {serverImageUrl} from "../api/api";
 import {Select, Switch} from "antd";
+import {selectAuthReducer} from "../selectors/selectors";
 
 
 interface SettingsFormikType {
@@ -33,7 +34,7 @@ const Settings:FC = () => {
         dispatch(actionUploadAvatar(formData));
     };
 
-    const {name,avatar,status,lang,city,groupList,mood,moodAvatar,isLocked} = useSelector<any,any>(state => state.authReducer);
+    const {name, avatar, status, lang, city, groupList, mood, moodAvatar, isLocked} = useSelector(selectAuthReducer);
     return (
         <div className={"settings content"}>
             <h1>Settings</h1>

@@ -8,7 +8,10 @@ import { actionGetDialogInfo, actionGetMessages} from "../redux/reducers/message
 
 import MessagePanel from "../components/Messages/MessagePanel";
 import {actionRemoveDialog} from "../redux/reducers/dialogsReducer";
-
+import {selectMessageInfo, selectMessageLoading} from "../selectors/selectors";
+interface FormikType {
+    message: string;
+}
 const Dialog:FC = ({}) => {
     let {pageID} = useParams();
     const dispatch = useDispatch<any>();
@@ -17,14 +20,13 @@ const Dialog:FC = ({}) => {
         dispatch(actionGetDialogInfo(pageID));
         dispatch(actionRemoveDialog());
         dispatch(actionGetMessages(pageID));
-    },[dispatch]);
+    },[pageID]);
+    const userDialog = useSelector(selectMessageInfo);
 
-    const FormSubmit = (values:any)=>{
+    const isLoading = useSelector(selectMessageLoading);
+    const FormSubmit = (values:FormikType)=>{
         websocket.send(JSON.stringify({action:'add_message', data:{message:values.message, dialogid:pageID}}))
-
-      //  props.wsSendEcho('add_message',{message:values.message, dialogid:pageID});
     };
-
     return (
         <div className="content">
             <div className="messages">
@@ -32,7 +34,7 @@ const Dialog:FC = ({}) => {
                     <div className="messages__buttons">
                         <Link to={"/dialogs"}><i className="fa fa-arrow-left" aria-hidden="true"/></Link>
                     </div>
-                    <MessagePanel />
+                    <MessagePanel loading={isLoading} user={userDialog}/>
                 </div>
                 <MessagesListContainer/>
                 <FormDialog FormSubmit={FormSubmit}/>

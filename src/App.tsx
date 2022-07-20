@@ -11,11 +11,9 @@ import Dialog from "./pages/Dialog";
 import withPage from "./hoc/withPage";
 import {WithAuth} from "./hoc/withAuth";
 import {connect} from "react-redux";
-import {checkToken, createWebsocket} from "./redux/reducers/authReducer";
+import { createWebsocket} from "./redux/reducers/authReducer";
 import News from "./pages/News";
 import Updates from "./pages/Updates";
-import {actionAddMessage} from "./redux/reducers/messageReducer";
-import {actionGetDialogs, actionUpdateDialog} from "./redux/reducers/dialogsReducer";
 import {selectMyID} from "./selectors/selectors";
 
 
@@ -57,7 +55,7 @@ class App extends React.Component<AppType, MyState>{
 
     }
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<MyState>, snapshot?: any): void {
-        if(this.props.loadingAuth && this.props.auth && !this.state.websocket ){//&& this.props.currentDialogID
+        if(this.props.loadingAuth && this.props.auth && !this.state.websocket ){
             this.setState({
                 websocket: true,
             });
@@ -80,14 +78,14 @@ class App extends React.Component<AppType, MyState>{
                     <Route path="/" element={ <ProfilePage />}/>
                     <Route
                         path="user/:userID"
-                        element={<ProfilePage wsSendEcho={(action:any,data:any)=>this.socket.current.send(JSON.stringify({action, data}))}/>}
+                        element={<ProfilePage />}
                     />
                     <Route path="/signin" element={<Login />} />
                     <Route path="/signup" element={<Registration/>} />
                     <Route path="/friends" element={<FriendsPage/>} />
                     <Route path="/dialogs">
                         <Route path=":pageID" element={<DialogPage />} />
-                        <Route index element={<DialogsPage wsSendEcho={(action:any,data:any)=>this.socket.current.send(JSON.stringify({action, data}))}/>} />
+                        <Route index element={<DialogsPage />} />
                     </Route>
                     <Route path="/news" element={<NewsPage/>} />
                     <Route path="/updates" element={<UpdatesPage/>} />
@@ -108,18 +106,6 @@ const mapStateToProps = (state:any) => ({
     currentDialogID: state.messageReducer.info.dialogid
 });
 const mapDispatchToProps = (dispatch:any) =>({
-    checkToken(){
-        dispatch(checkToken())
-    },
-    AddMessage(data:any){
-        dispatch(actionAddMessage(data))
-    },
-    UpdateDialog(message:any){
-        dispatch(actionUpdateDialog(message))
-    },
-    GetDialogs(){
-        dispatch(actionGetDialogs());
-    },
     createWebsocket(){
         dispatch(createWebsocket());
     }

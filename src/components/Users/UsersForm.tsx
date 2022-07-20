@@ -6,7 +6,7 @@ interface UsersFormType {
 }
 
 const UsersForm:FC<UsersFormType> = ({FormSubmit, FormChange}) => {
-    let time:any;
+    let time: ReturnType<typeof setTimeout>;
     const FormChangeTime = (e:React.ChangeEvent<HTMLFormElement>) =>{
         if(time) clearTimeout(time);
         time = setTimeout(()=>{

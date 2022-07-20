@@ -3,6 +3,13 @@ import {ThunkAction} from "redux-thunk";
 
 import {UsersAPI} from "../../api/UsersAPI/api";
 import {SubscribersAPI} from "../../api/SubcribersAPI/api";
+import {SubscribersType, UserType} from "../../untill/types";
+
+export interface profileReducerType{
+    isLoading: boolean
+    profile:UserType,
+    subscribers:SubscribersType[]
+}
 
 let initialState = {
     isLoading: true,
@@ -20,15 +27,30 @@ export const DELETE_PROFILE_SUBS = "DELETE_PROFILE_SUBS";
 const profileReducer = (state = initialState, action: any) => {
     switch(action.type) {
         case 'LOAD_PROFILE':
-            return {...state, profile: action.payload.profile}
+            return {
+                ...state,
+                profile: action.payload.profile
+            };
         case 'LOAD_PROFILE_SUBS':
-            return {...state, subscribers: action.payload.subscribers}
+            return {
+                ...state,
+                subscribers: action.payload.subscribers
+            };
         case 'ADD_PROFILE_SUBS':
-            return {...state, subscribers: [action.payload,...state.subscribers] }
+            return {
+                ...state,
+                subscribers: [action.payload,...state.subscribers]
+            };
         case 'DELETE_PROFILE_SUBS':
-            return {...state, subscribers: state.subscribers.filter((item:any)=> item.userid !== action.payload.id ) }
+            return {
+                ...state,
+                subscribers: state.subscribers.filter((item:any)=> item.userid !== action.payload.id )
+            };
         case 'SET_PROFILE_LOADING':
-            return {...state, isLoading: action.payload.isLoading}
+            return {
+                ...state,
+                isLoading: action.payload.isLoading
+            };
         default:
             return state;
     }

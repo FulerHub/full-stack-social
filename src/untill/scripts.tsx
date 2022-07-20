@@ -18,7 +18,6 @@ export function createSound(sound:string) {
 }
 
 export function getTimeDate(dateString:string) {
-    //const text =props.date ? props.date.toString() :'';
     const date = new Date(dateString);
     return ("0" + (date.getHours())).slice(-2)+':'+("0" + (date.getMinutes())).slice(-2)+':'+("0" + (date.getSeconds())).slice(-2)+' '+("0" + (date.getDate())).slice(-2)+'.'+("0" + (date.getMonth()+1)).slice(-2)+'.'+date.getFullYear();
 }
@@ -27,12 +26,12 @@ export function getTimeDate(dateString:string) {
 export const getFormatedText = (text:string) => {
     let newText = text.split(' ').map((item:any) =>{
         let youtube = item.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i);
-        if(youtube) return <iframe width="100%" height="315" src={'https://www.youtube.com/embed/'+youtube[1]} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-        let image = item.match(/\b(https?\:\/\/\S+(?:jpg|jpeg|png|gif|svg|webp))/mg)
-        if(image) return <img src={image} />
-        let link = item.match(/\b(https?\:\/\/\S+)/mg)
-        if(link) return <a href={link}>{link}</a>
+        if(youtube) return <iframe width="100%" height="315" src={'https://www.youtube.com/embed/' + youtube[1]} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>
+        let image = item.match(/\b(https?\:\/\/\S+(?:jpg|jpeg|png|gif|svg|webp))/mg);
+        if(image) return <img src={image}  alt={''}/>;
+        let link = item.match(/\b(https?\:\/\/\S+)/mg);
+        if(link) return <a href={link}>{link}</a>;
         return item+" ";
-    })
+    });
     return newText;
-}
+};

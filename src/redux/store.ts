@@ -1,15 +1,25 @@
 import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import thunk from "redux-thunk";
 import {composeWithDevTools} from "redux-devtools-extension";
-import authReducer from "./reducers/authReducer";
-import dialogsReducer from "./reducers/dialogsReducer";
-import usersReducer from "./reducers/usersReducer";
-import subscribersReducer from "./reducers/subscribersReducer";
-import postsReducer from "./reducers/postsReducer";
-import profileReducer from "./reducers/profileReducer";
-import messageReducer from "./reducers/messageReducer";
-import telegramReducer from "./reducers/telegramReducer";
+import authReducer, {authReducerType} from "./reducers/authReducer";
+import dialogsReducer, {dialogsReducerType} from "./reducers/dialogsReducer";
+import usersReducer, {usersReducerType} from "./reducers/usersReducer";
+import subscribersReducer, {subscribersReducerType} from "./reducers/subscribersReducer";
+import postsReducer, {postsReducerType} from "./reducers/postsReducer";
+import profileReducer, {profileReducerType} from "./reducers/profileReducer";
+import messageReducer, {messageReducerType} from "./reducers/messageReducer";
+import telegramReducer, {TelegramReducerType} from "./reducers/telegramReducer";
 
+export interface RootStateType {
+    authReducer: authReducerType;
+    dialogsReducer: dialogsReducerType;
+    usersReducer: usersReducerType;
+    postsReducer: postsReducerType;
+    profileReducer: profileReducerType;
+    subscribersReducer: subscribersReducerType;
+    messageReducer: messageReducerType;
+    telegramReducer: TelegramReducerType;
+}
 
 const rootReducer = combineReducers({
     authReducer: authReducer,
@@ -22,6 +32,5 @@ const rootReducer = combineReducers({
     telegramReducer: telegramReducer
 });
 
-export const store = legacy_createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))) //composeWithDevTools
 
-
+export const store = legacy_createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))); //composeWithDevTools

@@ -9,18 +9,24 @@ import {
     actionSubscribe,
     actionUnsubscribe
 } from "../redux/reducers/subscribersReducer";
-import {selectMyID, selectSubscribersList, selectSubscriptionsList, selectUsersListData} from "../selectors/selectors";
+import {
+    selectMyID,
+    selectSubscribersList,
+    selectSubscribersLoading,
+    selectSubscriptionsList,
+    selectUsersListData, selectUsersReducer
+} from "../selectors/selectors";
 
 
 const Friends:FC = () => {
-    const [tab,setTab] = useState<any>(1);
-    const user = useSelector<any,any>(selectMyID);
-    const {totalUsers,isLoading} = useSelector<any,any>(state => state.usersReducer);
-    const isLoadingSub = useSelector<any,any>(state => state.subscribersReducer.isLoading);
+    const [tab,setTab] = useState<number>(1);
+
+    const user = useSelector(selectMyID);
+    const {totalUsers,isLoading} = useSelector(selectUsersReducer);
+    const isLoadingSub = useSelector(selectSubscribersLoading);
     const usersListData = useSelector(selectUsersListData);
     const subscriptionsListData = useSelector(selectSubscriptionsList);
     const subscribersListData = useSelector(selectSubscribersList);
-
 
     const dispatch = useDispatch<any>();
     useEffect(()=>{

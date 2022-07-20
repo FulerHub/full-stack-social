@@ -2,6 +2,12 @@ import {message} from "antd";
 //import {ThunkAction} from "redux-thunk";
 
 import {PostsAPI} from "../../api/PostsAPI/api";
+import {PostsType} from "../../untill/types";
+
+export interface postsReducerType{
+    isLoading: boolean;
+    posts:PostsType[]
+}
 
 let initialState = {
     isLoading: true,
@@ -18,19 +24,37 @@ export const SET_POSTS_LOADING = "SET_POSTS_LOADING";
 const postsReducer = (state = initialState, action: any) => {
     switch(action.type) {
         case 'LOAD_POSTS':
-            return {...state, posts: action.payload.posts}
+            return {
+                ...state,
+                posts: action.payload.posts
+            };
         case 'ADD_POST':
-            return {...state, posts:[action.payload,...state.posts]}
+            return {
+                ...state,
+                posts:[action.payload,...state.posts]
+            };
         case 'UPDATE_POST':
-            return {...state, posts:state.posts.map((item:any) => item.id === action.payload.id ? {...item, message: action.payload.message } : item) }
+            return {
+                ...state,
+                posts:state.posts.map((item:any) => item.id === action.payload.id ? {
+                    ...item,
+                    message: action.payload.message
+                } : item)
+            };
         case 'DELETE_POST':
-            return {...state, posts: state.posts.filter((item:any) => item.id !== action.payload.id)}
+            return {
+                ...state,
+                posts: state.posts.filter((item:any) => item.id !== action.payload.id)
+            };
         case 'SET_POSTS_LOADING':
-            return {...state, isLoading: action.payload.isLoading}
+            return {
+                ...state,
+                isLoading: action.payload.isLoading
+            };
         default:
             return state;
     }
-}
+};
 
 const actions = {
     setLoading: (payload:any):any => ({type: SET_POSTS_LOADING, payload}),

@@ -2,10 +2,12 @@ import React, {FC} from 'react';
 import ProfileForm from "./ProfileForm";
 import {useSelector} from "react-redux";
 import Preloader from "../Preloader";
+import {selectProfile, selectProfileLoading} from "../../selectors/selectors";
 
 
 const ProfileContent:FC = ({}) => {
-    const {status,city,lang,isLoading} = useSelector<any,any>(state => state.profileReducer.profile);
+    const {status,city,lang} = useSelector(selectProfile);
+    const isLoading = useSelector(selectProfileLoading);
     if(isLoading) return <div className="profile__content"><Preloader/></div>;
     return (
         <div className="profile__content">

@@ -1,11 +1,18 @@
 import {message} from "antd";
 import {ThunkAction} from "redux-thunk";
 import {SubscribersAPI} from "../../api/SubcribersAPI/api";
+import {SubscribersType, SubscriptionsType} from "../../untill/types";
+
+export interface subscribersReducerType{
+    isLoading: boolean;
+    subscribers:SubscribersType[],
+    subscriptions:SubscriptionsType[],
+}
 
 let initialState = {
     isLoading: false,
-    subscribers:[],//подпищики
-    subscriptions:[],//подписки
+    subscribers:[],
+    subscriptions:[],
 
 };
 type defaultStateType = typeof initialState

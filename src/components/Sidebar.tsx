@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import { NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 const Sidebar:FC = ({}) => {
     return (

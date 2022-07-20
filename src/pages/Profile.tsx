@@ -7,15 +7,12 @@ import { useSelector} from "react-redux";
 import {selectMyID} from "../selectors/selectors";
 
 interface ProfileType {
-    //wsSendEcho: (action:string,value:any)=> void
 }
 
 const Profile:FC<ProfileType> = () => {
     let {userID} = useParams();
-    const myID = useSelector<any,any>(selectMyID);
-    //const isLocked = useSelector<any,any>(state => state.authReducer.isLocked)
-
-    if(userID == myID) return <Navigate to="/"/>;
+    const myID = useSelector(selectMyID);
+    if(Number(userID) == myID) return <Navigate to="/"/>;
     return (
         <div className={"profile"}>
             <div className="profile__wrap">
@@ -24,7 +21,7 @@ const Profile:FC<ProfileType> = () => {
             </div>
             <div className="profile__posts">
                 <div className={"block"}>
-                    <PostsListContainer userID={userID ? userID : myID}/>
+                    <PostsListContainer userID={userID ? Number(userID) : myID}/>
                 </div>
             </div>
         </div>

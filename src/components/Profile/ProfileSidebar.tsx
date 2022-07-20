@@ -10,7 +10,7 @@ import {
 import {serverImageUrl} from "../../api/api";
 import {actionCreateDialog} from "../../redux/reducers/dialogsReducer";
 import Preloader from "../Preloader";
-import {selectMyID} from "../../selectors/selectors";
+import {selectDialogsActive, selectMyID, selectProfileReducer} from "../../selectors/selectors";
 
 interface ValueType {
     dialogid:number;
@@ -23,37 +23,35 @@ interface ProfileSidebarType {
 const ProfileSidebar:FC<ProfileSidebarType> = ({}) => {
     let {userID} = useParams();
     const dispatch = useDispatch<any>();
-    const myID = useSelector<any,any>(selectMyID);
-    const {isLoading,profile,subscribers} = useSelector<any,any>(state => state.profileReducer);
-
+    const myID = useSelector(selectMyID);
+    const {isLoading,profile,subscribers} = useSelector(selectProfileReducer);
+    const currentID = userID ? Number(userID) : myID;
     useEffect(()=>{
-        dispatch(actionGetProfile(userID ? userID : myID));
-        dispatch(actionGetProfileSubscribers(userID ? userID : myID));
+        dispatch(actionGetProfile(currentID));
+        dispatch(actionGetProfileSubscribers(currentID));
     },[userID]);
 
-    const activeDialog = useSelector<any,any>(state => state.dialogsReducer.activeDialog);
+    const activeDialog = useSelector(selectDialogsActive);
 
-    const isSubscribe = subscribers.find((item:any)=>item.userid === myID);
+    const isSubscribe = subscribers.find((item)=>item.userid === myID);
 
     const handleClick = (type:boolean)=>{
         dispatch((type) ? actionUnsubscribe(userID) : actionSubscribe(userID));
     };
     const handleClickDialog = ()=>{
-        dispatch(actionCreateDialog(userID ? userID : myID));
+        dispatch(actionCreateDialog(currentID));
     };
     const websocket = useSelector<any,any>(state => state.authReducer.websocket);
     if(activeDialog !== null){
-        //console.log('activeDialog',activeDialog)
         websocket.send(JSON.stringify({action:'load_dialog', data:{dialogid:activeDialog![0].dialogid}}));
 
-       // wsSendEcho('load_dialog',{dialogid:activeDialog![0].dialogid});
         return <Navigate to={userID? '/dialogs/'+activeDialog![0].dialogid : '/'} />
     }
     if(isLoading) return <div className="profile__sidebar"><Preloader/></div>;
     return (
         <div className="profile__sidebar">
             <div className="profile__avatar">
-                <img src={profile.avatar ? serverImageUrl+profile.avatar : "/images/no-user.jpg"} alt=""/>
+                <img src={profile.avatar && serverImageUrl+profile.avatar } alt=""/>
             </div>
 
             <div className="profile__buttons">
@@ -69,7 +67,6 @@ const ProfileSidebar:FC<ProfileSidebarType> = ({}) => {
                     {userID ? <li className={"profile__send-message"}><a onClick={handleClickDialog}>Send Message</a></li>: ""}
                 </ul>
             </div>
-
         </div>
     );
 };

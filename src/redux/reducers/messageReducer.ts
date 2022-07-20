@@ -3,11 +3,19 @@ import {message} from "antd";
 
 import {MessagesAPI} from "../../api/MessagesAPI/api";
 import {DialogsAPI} from "../../api/DialogsAPI/api";
+import {InfoMessagesType, MessagesType} from "../../untill/types";
+
+export interface messageReducerType{
+    isLoading: boolean;
+    messages:MessagesType[],
+    info:InfoMessagesType
+}
+
 
 let initialState = {
     isLoading: false,
     messages:[],
-    info:[]
+    info:{}
 };
 type defaultStateType = typeof initialState
 export const LOAD_MESSAGES = "LOAD_MESSAGES";
@@ -21,17 +29,38 @@ export const SET_MESSAGES_LOADING = "SET_MESSAGES_LOADING";
 const messageReducer = (state = initialState, action: any) => {
     switch(action.type) {
         case 'LOAD_MESSAGES':
-            return {...state, messages: action.payload.messages}
+            return {
+                ...state,
+                messages: action.payload.messages
+            };
         case 'LOAD_INFO_MESSAGE':
-            return {...state, info: action.payload.info}
+            return {
+                ...state,
+                info: action.payload.info
+            };
         case 'ADD_MESSAGE':
-            return {...state, messages:[...state.messages,action.payload]}
+            return {
+                ...state,
+                messages:[...state.messages, action.payload]
+            };
         case 'UPDATE_MESSAGE':
-            return {...state, messages:state.messages.map((item:any) => item.id === action.payload.id ? {...item, message: action.payload.message } : item) }
+            return {
+                ...state,
+                messages:state.messages.map((item:any) => item.id === action.payload.id ? {
+                    ...item,
+                    message: action.payload.message
+                } : item)
+            };
         case 'DELETE_MESSAGE':
-            return {...state, messages: state.messages.filter((item:any) => item.id !== action.payload.id)}
+            return {
+                ...state,
+                messages: state.messages.filter((item:any) => item.id !== action.payload.id)
+            };
         case 'SET_MESSAGES_LOADING':
-            return {...state, isLoading: action.payload.isLoading}
+            return {
+                ...state,
+                isLoading: action.payload.isLoading
+            };
         default:
             return state;
     }
@@ -63,6 +92,7 @@ export const actionGetMessages = (dialog:any):any => async (dispatch:any) =>{
 
 };
 export const actionGetDialogInfo = (dialog:any):any => async (dispatch:any) =>{
+    dispatch(actions.setLoading({isLoading: true}));
     try{
         const res = await DialogsAPI.getDialog(dialog);
         if(res.status === 200){
@@ -73,15 +103,16 @@ export const actionGetDialogInfo = (dialog:any):any => async (dispatch:any) =>{
         message.error(`${error.response.data.message}`)
     }
     finally {
+        dispatch(actions.setLoading({isLoading: false}));
     }
 };
 
 export const actionAddMessage = (values:any):any => async (dispatch:any) =>{
     try{
-        dispatch(actions.addMessage(values))
+        dispatch(actions.addMessage(values));
     }
     catch (error:any) {
-        message.error(`${error.response.data.message}`)
+        message.error(`${error.response.data.message}`);
     }
 };
 

@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 
-/**DEV*/
 const Updates:FC = () => {
     return (
         <div className={"content"}>

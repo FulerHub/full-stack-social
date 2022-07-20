@@ -3,10 +3,11 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {actionLogout} from "../redux/reducers/authReducer";
 import {serverImageUrl} from "../api/api";
+import {selectAuthReducer} from "../selectors/selectors";
 
 const Header:FC = ({}) => {
     const dispatch = useDispatch<any>();
-    const {name,avatar} = useSelector<any, any>(state => state.authReducer);
+    const {name,avatar} = useSelector(selectAuthReducer);
     const Logout = ()=>{
         dispatch(actionLogout())
     };

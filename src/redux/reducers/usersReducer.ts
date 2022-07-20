@@ -2,6 +2,13 @@ import {message} from "antd";
 import {ThunkAction} from "redux-thunk";
 
 import {UsersAPI} from "../../api/UsersAPI/api";
+import {UserType} from "../../untill/types";
+
+export interface usersReducerType{
+    isLoading: boolean;
+    users:UserType[],
+    totalUsers:number;
+}
 
 let initialState = {
     isLoading: false,

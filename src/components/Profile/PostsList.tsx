@@ -9,9 +9,9 @@ import {EditPostType, PostsType} from "../../untill/types";
 interface PostsListType {
     loading: boolean;
     userID: number;
-    profileid: number;
+    profileid: number | undefined;
     myID: number;
-    isLocked: boolean;
+    isLocked: boolean | undefined;
     posts: PostsType[];
     getPost: (userID:number)=> void
     updatePost: (value: EditPostType)=> void

@@ -1,10 +1,15 @@
 import {message} from "antd";
 import {TelegramAPI} from "../../api/TelegramAPI/api";
+import {TelegramType} from "../../untill/types";
+
+export interface TelegramReducerType{
+    isLoading: boolean;
+    posts: TelegramType[]
+}
 
 let initialState = {
     isLoading: true,
     posts: []
-
 };
 type defaultStateType = typeof initialState
 export const LOAD_TELEGRAM = "LOAD_TELEGRAM";

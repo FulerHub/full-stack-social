@@ -3,11 +3,9 @@ import {Formik} from "formik";
 import Input from "../components/Input";
 import {Link, Navigate} from "react-router-dom";
 import * as yup from "yup";
-import {connect, useDispatch, useSelector} from "react-redux";
-import {actionLogin, checkToken} from "../redux/reducers/authReducer";
+import { useDispatch} from "react-redux";
+import {actionLogin} from "../redux/reducers/authReducer";
 import {useLocation} from "react-router";
-import {actionAddMessage} from "../redux/reducers/messageReducer";
-import {actionGetDialogs, actionUpdateDialog} from "../redux/reducers/dialogsReducer";
 
 interface valuesTypes {
     email: string

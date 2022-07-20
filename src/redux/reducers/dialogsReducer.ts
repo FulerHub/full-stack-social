@@ -1,6 +1,14 @@
 import {message} from "antd";
 import {DialogsAPI} from "../../api/DialogsAPI/api";
 import {UsersAPI} from "../../api/UsersAPI/api";
+import {DialogsType} from "../../untill/types";
+
+export interface dialogsReducerType{
+    isLoading: boolean;
+    dialogs:DialogsType[],
+    activeDialog: any
+}
+
 
 let initialState = {
     isLoading: false,
@@ -18,13 +26,32 @@ export const UPDATE_DIALOG = "UPDATE_DIALOG";
 const dialogsReducer = (state = initialState, action: any) => {
     switch(action.type) {//
         case 'SET_DIALOGS':
-            return {...state, dialogs: action.payload.dialogs}
+            return {
+                ...state,
+                dialogs: action.payload.dialogs
+            };
         case 'SET_ACTIVE_DIALOG':
-            return {...state, activeDialog: action.payload.activeDialog}
+            return {
+                ...state,
+                activeDialog: action.payload.activeDialog
+            };
         case 'UPDATE_DIALOG':
-            return {...state, dialogs:state.dialogs.map((item:any) => item.dialogid === action.payload.id ? {...item, last:{userid:action.payload.userid, message: action.payload.message,lastTimeMessage: action.payload.lastTimeMessage }} : item) }
+            return {
+                ...state,
+                dialogs:state.dialogs.map((item:any) => item.dialogid === action.payload.id ? {
+                    ...item,
+                    last:{
+                        userid:action.payload.userid,
+                        message: action.payload.message,
+                        lastTimeMessage: action.payload.lastTimeMessage
+                    }
+                } : item)
+            };
         case 'SET_DIALOG_LOADING':
-            return {...state, isLoading: action.payload.isLoading}
+            return {
+                ...state,
+                isLoading: action.payload.isLoading
+            };
         default:
             return state;
     }
@@ -111,6 +138,5 @@ export const actionCreateDialog = (userID:number):any => async (dispatch:any) =>
     }
     dispatch(actions.setLoading({isLoading: false}));
 };
-
 
 export default dialogsReducer;
