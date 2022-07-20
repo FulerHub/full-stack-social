@@ -10,13 +10,7 @@ const mapStateToProps = (state:RootStateType) => ({
     loading: selectMessageLoading(state)
 });
 
-const mapDispatchToProps = (dispatch:any) =>({
-    deleteMessage(id:number){
-        dispatch(actionDeletePost(id));
-    },
-    updateMessage(values:any){
-        dispatch(actionUpdatePost(values));
-    },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(MessagesList);
+export default connect(mapStateToProps, {
+    deleteMessage:actionDeletePost,
+    updateMessage:actionUpdatePost
+})(MessagesList);

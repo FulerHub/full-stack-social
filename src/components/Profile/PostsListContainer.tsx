@@ -19,16 +19,8 @@ const mapStateToProps = (state:RootStateType) => ({
     profileid: selectProfileID(state)
 });
 
-const mapDispatchToProps = (dispatch:any) =>({
-    getPost(user:number){
-        dispatch(actionGetPosts(user));
-    },
-    delPost(id:number){
-        dispatch(actionDeletePost(id));
-    },
-    updatePost(values:any){
-        dispatch(actionUpdatePost(values));
-    },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostsList);
+export default connect(mapStateToProps, {
+    getPost:actionGetPosts,
+    delPost:actionDeletePost,
+    updatePost:actionUpdatePost
+})(PostsList);

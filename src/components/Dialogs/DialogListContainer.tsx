@@ -11,10 +11,6 @@ const mapStateToProps = (state:RootStateType) => ({
 });
 
 
-const mapDispatchToProps = (dispatch:any) =>({
-    getDialogs(){
-        dispatch(actionGetDialogs())
-    }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(DialogList);
+export default connect(mapStateToProps, {
+    getDialogs: actionGetDialogs
+})(DialogList);

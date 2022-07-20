@@ -33,4 +33,6 @@ const rootReducer = combineReducers({
 });
 
 
-export const store = legacy_createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))); //composeWithDevTools
+export const store = legacy_createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+
+export type AppDispatch = typeof store.dispatch
